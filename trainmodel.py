@@ -2,7 +2,6 @@ import os
 import face_recognition as fr
 import pickle
 
-
 def encode_faces(image_dir='./Images'):
     encoded_data = {}
     for dirpath, _, fnames in os.walk(image_dir):
@@ -19,15 +18,16 @@ def encode_faces(image_dir='./Images'):
                     print(f"Face not found in the image {fname}")
     return encoded_data
 
+def save_encoded_faces(encoded_faces, model_file='face_recognition_model.dat'):
+    with open(model_file, 'wb') as f:
+        pickle.dump(encoded_faces, f)
+    print(f"Training completed and data saved to {model_file}")
 
 if __name__ == "__main__":
     model_file = 'face_recognition_model.dat'
 
-    # Re-encode faces
+    # Encode faces
     faces = encode_faces()
 
-    # Save updated model
-    with open(model_file, 'wb') as f:
-        pickle.dump(faces, f)
-
-    print("Training completed and data saved to face_recognition_model.dat")
+    # Save the encoded faces
+    save_encoded_faces(faces, model_file)
